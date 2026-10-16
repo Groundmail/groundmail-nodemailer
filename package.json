@@ -1,0 +1,63 @@
+{
+  "name": "groundmail-nodemailer",
+  "version": "0.14.4",
+  "description": "Nodemailer transport for Groundmail transactional email (HTTP API, not SMTP)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "src",
+    "!src/**/*.test.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Groundmail/groundmail-nodemailer.git"
+  },
+  "homepage": "https://docs.groundmail.dev/frameworks/node",
+  "bugs": {
+    "url": "https://github.com/Groundmail/groundmail-nodemailer/issues"
+  },
+  "keywords": [
+    "nodemailer",
+    "nodemailer-transport",
+    "email",
+    "transactional",
+    "transport",
+    "groundmail",
+    "smtp"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "nodemailer": ">=6.0.0",
+    "groundmail": ">=0.13.0"
+  },
+  "dependencies": {
+    "groundmail": "0.14.4"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^8.0.1",
+    "nodemailer": "^9.0.3",
+    "tsup": "^8.5.0",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --external groundmail --external nodemailer --clean",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  }
+}
