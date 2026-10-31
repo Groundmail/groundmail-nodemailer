@@ -1,6 +1,6 @@
 {
   "name": "groundmail-nodemailer",
-  "version": "0.15.20",
+  "version": "0.15.21",
   "description": "Nodemailer transport for Groundmail transactional email (HTTP API, not SMTP)",
   "license": "MIT",
   "type": "module",
@@ -46,7 +46,7 @@
     "groundmail": ">=0.13.0"
   },
   "dependencies": {
-    "groundmail": "0.31.0"
+    "groundmail": "0.32.0"
   },
   "devDependencies": {
     "@types/nodemailer": "^8.0.1",
