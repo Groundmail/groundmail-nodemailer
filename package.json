@@ -1,6 +1,6 @@
 {
   "name": "groundmail-nodemailer",
-  "version": "0.15.40",
+  "version": "0.15.41",
   "description": "Nodemailer transport for Groundmail (HTTP API, not SMTP)",
   "license": "MIT",
   "type": "module",
@@ -46,13 +46,13 @@
     "groundmail": ">=0.13.0"
   },
   "dependencies": {
-    "groundmail": "0.48.1"
+    "groundmail": "0.48.2"
   },
   "devDependencies": {
     "@types/nodemailer": "^8.0.2",
     "nodemailer": "^10.3.1",
-    "tsup": "^8.5.0",
-    "typescript": "^5",
+    "tsup": "^9.0.0",
+    "typescript": "^6.0.3",
     "vitest": "^5.1.0"
   },
   "scripts": {
