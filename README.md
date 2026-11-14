@@ -78,8 +78,8 @@ Found a bug or want something added? [Open an issue](https://github.com/Groundma
 
 ## Why Groundmail
 
-- **Our own mail servers and IP space.** Your password resets and receipts don't share a pool with bulk marketing senders.
-- **Transactional email only.** No newsletters or cold outreach on the platform, which keeps the sending reputation clean.
+- **Mailboxes for your agents.** Give an agent its own email address: it receives mail, replies in the thread and picks up sign-up codes on its own. No account needed to start. [Agent mailboxes](https://groundmail.dev/features/mailboxes/?utm_source=github&utm_medium=readme&utm_campaign=groundmail-nodemailer)
+- **Each kind of mail on its own IPs.** Transactional email (sign-in codes, password resets, receipts), product email and opt-in newsletters send from separate IPs, so your newsletter never shares a pool with your password resets. We run our own mail servers and never send cold outreach or bought lists.
 - **Start free.** Free covers 3,000 emails a month. After that, pay as you go is $15 a month with 20,000 emails included, then from $0.70 per 1,000, less as you grow. [Pricing](https://groundmail.dev/pricing/?utm_source=github&utm_medium=readme&utm_campaign=groundmail-nodemailer)
 - **Built for code and for agents.** REST API, SMTP, SDKs for Node, Python, Go, PHP and Ruby, a CLI, and an MCP server for Claude, ChatGPT and Cursor.
 
