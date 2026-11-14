@@ -58,6 +58,41 @@ describe('mailDataToSendParams', () => {
     })
   })
 
+  it('decodes string attachments with their encoding instead of encoding them twice', async () => {
+    const bytes = Buffer.from([0x25, 0x50, 0x44, 0x46, 0x00, 0xff, 0xfe, 0x0a])
+    const params = await mailDataToSendParams({
+      from: 'ops@example.com',
+      to: 'user@example.com',
+      text: 'Hi',
+      attachments: [
+        { filename: 'docs.txt', content: 'aGVsbG8gd29ybGQh', encoding: 'base64' },
+        { filename: 'b64.pdf', content: bytes.toString('base64'), encoding: 'base64' },
+        { filename: 'hex.pdf', content: bytes.toString('hex'), encoding: 'hex' },
+        { filename: 'plain.txt', content: 'héllo', encoding: 'utf-8' },
+        { filename: 'none.txt', content: 'héllo' },
+        { filename: 'buffer.pdf', content: bytes, encoding: 'base64' },
+      ],
+    })
+    const decoded = (params.attachments ?? []).map((a) => Buffer.from(String(a.content), 'base64'))
+    expect(decoded[0].toString()).toBe('hello world!')
+    expect(decoded[1].equals(bytes)).toBe(true)
+    expect(decoded[2].equals(bytes)).toBe(true)
+    expect(decoded[3].toString()).toBe('héllo')
+    expect(decoded[4].toString()).toBe('héllo')
+    expect(decoded[5].equals(bytes)).toBe(true)
+  })
+
+  it('rejects an attachment encoding it cannot decode', async () => {
+    await expect(
+      mailDataToSendParams({
+        from: 'ops@example.com',
+        to: 'user@example.com',
+        text: 'Hi',
+        attachments: [{ filename: 'a.bin', content: 'abc', encoding: 'rot13' }],
+      }),
+    ).rejects.toThrow(/Unsupported attachment encoding/)
+  })
+
   it('requires from, to, and body', async () => {
     await expect(mailDataToSendParams({ to: 'a@example.com', html: '<p>x</p>' })).rejects.toThrow(
       /From/,

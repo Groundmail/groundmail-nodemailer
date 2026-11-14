@@ -78,12 +78,27 @@ function headerMap(headers: MailMessage['data']['headers']): Record<string, stri
   return out
 }
 
-async function attachmentContentToBase64(content: unknown): Promise<string> {
+const TEXT_ENCODINGS = new Set(['utf8', 'usascii', 'ascii'])
+
+/**
+ * `encoding` says how a string `content` is encoded ("base64", "hex", …), the same way
+ * Nodemailer reads it: the string is decoded to bytes first. It is ignored for Buffers.
+ */
+async function attachmentContentToBase64(content: unknown, encoding?: unknown): Promise<string> {
   if (content == null) {
     throw new Error('Attachment is missing content')
   }
   if (typeof content === 'string') {
-    return Buffer.from(content).toString('base64')
+    const enc = String(encoding || 'utf8')
+      .toLowerCase()
+      .replace(/[-_\s]/g, '')
+    if (TEXT_ENCODINGS.has(enc)) {
+      return Buffer.from(content).toString('base64')
+    }
+    if (!Buffer.isEncoding(enc)) {
+      throw new Error(`Unsupported attachment encoding "${String(encoding)}"`)
+    }
+    return Buffer.from(content, enc).toString('base64')
   }
   if (Buffer.isBuffer(content)) {
     return content.toString('base64')
@@ -137,7 +152,7 @@ export async function mailDataToSendParams(data: MailMessage['data']): Promise<S
         return {
           filename: String(filename),
           contentType,
-          content: await attachmentContentToBase64(att.content),
+          content: await attachmentContentToBase64(att.content, att.encoding),
           ...(att.cid ? { contentId: String(att.cid) } : {}),
         }
       }),
